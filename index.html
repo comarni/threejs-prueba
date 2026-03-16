@@ -11,50 +11,67 @@
   <!-- CANVAS 3D -->
   <div id="canvas-container"></div>
 
-  <!-- ESTADO EMOCIONAL -->
+  <!-- ESTADO EMOCIONAL (top center) -->
   <div id="mood-display">
     <div id="mood-icon">😐</div>
     <div id="mood-text">El Cubo te observa…</div>
   </div>
 
-  <!-- BARRA DE STRESS -->
+  <!-- BARRA DE ESTRÉS (top left) -->
   <div id="stress-bar-wrapper">
-    <div id="stress-label">ESTRÉS</div>
+    <div id="stress-label">ESTRÉS DEL CUBO</div>
     <div id="stress-bar-track">
       <div id="stress-bar-fill"></div>
     </div>
     <div id="stress-value">0%</div>
   </div>
 
-  <!-- MINI DESAFIO -->
+  <!-- MINI DESAFIO (top right) -->
   <div id="challenge-box">
-    <div id="challenge-title">DESAFIO</div>
+    <div id="challenge-title">✦ MISIÓN ACTIVA</div>
     <div id="challenge-text">Haz hover 10 veces sobre el cubo</div>
     <div id="challenge-progress">0 / 10</div>
   </div>
 
-  <!-- EASTER EGG HINT -->
+  <!-- BUFFER DE TEXTO ESCRITO (centro superior) -->
+  <div id="typed-display" class="hidden"></div>
+
+  <!-- EASTER EGG / HINT -->
   <div id="hint-box" class="hidden">
     <span id="hint-text"></span>
   </div>
 
-  <!-- CONTROLES INFO -->
+  <!-- CONTROLES (bottom left) -->
   <div id="controls-panel">
-    <div class="ctrl-row"><kbd>Hover</kbd> El cubo se pone nervioso</div>
-    <div class="ctrl-row"><kbd>Click</kbd> Explosión emocional</div>
-    <div class="ctrl-row"><kbd>Hold</kbd> Se derrite de sufrimiento</div>
-    <div class="ctrl-row"><kbd>Doble</kbd> Glitch interdimensional</div>
-    <div class="ctrl-row"><kbd>Scroll</kbd> Ondas existenciales</div>
-    <div class="ctrl-row"><kbd>Mic</kbd> Baila o se esconde</div>
+    <div id="ctrl-title">INTERACCIONES</div>
+    <div class="ctrl-row"><kbd>Drag</kbd> Rotar cámara</div>
+    <div class="ctrl-row"><kbd>Hover</kbd> El cubo se asusta</div>
+    <div class="ctrl-row"><kbd>Click</kbd> Explosión de alegría</div>
+    <div class="ctrl-row"><kbd>Hold</kbd> Se derrite</div>
+    <div class="ctrl-row"><kbd>2×Click</kbd> Esfera + glitch</div>
+    <div class="ctrl-row"><kbd>Scroll↓</kbd> Ondas / aplana</div>
+    <div class="ctrl-row"><kbd>Scroll↑</kbd> Se encoge / infla</div>
+    <div class="ctrl-row"><kbd>A+D</kbd> Moonwalk</div>
+    <div class="ctrl-row"><kbd>W+S</kbd> Gusano elástico</div>
+    <div class="ctrl-row"><kbd>B</kbd> Plátano con ojos</div>
+    <div class="ctrl-row"><kbd>Enter</kbd> Se reinventa</div>
+    <div class="ctrl-row"><kbd>Shift+🖱</kbd> Se divide</div>
+    <div class="ctrl-row"><kbd>Ctrl+🖱</kbd> Cambia gravedad</div>
+    <div class="ctrl-row"><kbd>Alt×10s</kbd> Portal dimensional</div>
+    <div class="ctrl-row"><kbd>Esc</kbd> Nuevo universo</div>
+    <div class="ctrl-row"><kbd>Escribe</kbd> LOVE HATE CHAOS…</div>
   </div>
 
-  <!-- BOTON MICROFONO -->
+  <!-- BOTON MICROFONO (bottom right) -->
   <button id="btn-mic" title="Activar micrófono">
     <span id="mic-icon">🎤</span>
     <span id="mic-label">Activar Mic</span>
   </button>
 
-  <!-- Three.js sin bundler -->
+  <!-- EASTER EGG: click en esquina derecha para bebé -->
+  <div id="baby-hint">👆 ¿Hay algo en la esquina?</div>
+
+  <!-- Three.js vía CDN (sin bundler) -->
   <script type="importmap">
   {
     "imports": {
