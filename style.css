@@ -186,6 +186,70 @@ html, body {
   margin-bottom: 5px;
 }
 .ctrl-row { display:flex; align-items:center; gap:8px; font-size:0.68rem; color:var(--text-dim); }
+
+/* ═══════════════════════════════════════════════════════════
+   WIDGET ACCESS (descarga + documentación)
+═══════════════════════════════════════════════════════════ */
+#widget-access {
+  position: fixed;
+  left: 20px;
+  bottom: 285px;
+  z-index: 20;
+  width: 300px;
+  padding: 12px 14px;
+  border-radius: var(--radius);
+  background: rgba(8, 2, 26, 0.84);
+  border: 1px solid rgba(0, 255, 255, 0.25);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 0 18px rgba(0, 255, 255, 0.16);
+}
+
+#widget-access-title {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px rgba(0, 255, 255, 0.45);
+  margin-bottom: 6px;
+}
+
+#widget-access-text {
+  font-size: 0.73rem;
+  color: var(--text-dim);
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+
+#widget-access-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 9px 10px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  color: #021014;
+  background: linear-gradient(90deg, var(--neon-cyan), #85fff3);
+  border: 1px solid rgba(0, 255, 255, 0.5);
+  box-shadow: 0 0 14px rgba(0, 255, 255, 0.35);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease;
+}
+
+#widget-access-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.04);
+  box-shadow: 0 0 24px rgba(0, 255, 255, 0.52);
+}
+
+#widget-access-btn:active {
+  transform: translateY(0);
+}
 kbd {
   display: inline-block; padding: 1px 7px;
   background: rgba(191,0,255,0.12);
@@ -275,6 +339,18 @@ body::after {
   #challenge-text   { font-size:0.68rem; }
 
   #controls-panel   { display:none; }
+
+  #widget-access {
+    left: 10px;
+    right: 10px;
+    width: auto;
+    bottom: 76px;
+    padding: 10px 12px;
+  }
+
+  #widget-access-title { font-size: 0.62rem; }
+  #widget-access-text  { font-size: 0.68rem; }
+  #widget-access-btn   { font-size: 0.7rem; padding: 8px 10px; }
 
   #btn-mic          { bottom:14px; right:14px; padding:9px 13px; font-size:0.73rem; }
 

@@ -646,6 +646,284 @@
       .ws-integration-header { padding:20px; }
       .ws-tabs { padding:14px 20px 0; }
     }
+
+    /* ══════════════════════════════════════════════
+       CONFIGURADOR / DESCARGA
+    ══════════════════════════════════════════════ */
+    .ws-configurator {
+      margin-top: 64px;
+      background: linear-gradient(135deg, #0d0a1f 0%, #0a0618 60%, #060312 100%);
+      border: 1px solid rgba(0, 229, 255, 0.22);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .ws-configurator-header {
+      padding: 28px 36px 24px;
+      border-bottom: 1px solid rgba(0,229,255,0.14);
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .ws-configurator-header-icon {
+      font-size: 2rem;
+      line-height: 1;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .ws-configurator-header h2 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 5px;
+    }
+    .ws-configurator-header p {
+      font-size: 0.84rem;
+      color: var(--c-text-dim);
+      line-height: 1.6;
+    }
+    .ws-configurator-header p strong { color: var(--c-cyan); }
+
+    .ws-configurator-body {
+      display: grid;
+      grid-template-columns: 1fr 280px;
+      gap: 0;
+    }
+    @media(max-width:820px){ .ws-configurator-body{ grid-template-columns:1fr; } }
+
+    /* Panel de controles */
+    .ws-cfg-controls {
+      padding: 32px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      border-right: 1px solid rgba(0,229,255,0.1);
+    }
+    @media(max-width:820px){ .ws-cfg-controls{ border-right:none; border-bottom:1px solid rgba(0,229,255,0.1); } }
+
+    .ws-cfg-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .ws-cfg-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--c-cyan);
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+    .ws-cfg-label-icon { font-size: 0.9rem; }
+
+    /* Grid de opciones tipo chip */
+    .ws-cfg-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .ws-cfg-chip {
+      padding: 7px 14px;
+      border-radius: 8px;
+      border: 1px solid rgba(0,229,255,0.2);
+      background: rgba(0,229,255,0.04);
+      color: var(--c-text-dim);
+      font-size: 0.78rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.18s;
+      user-select: none;
+    }
+    .ws-cfg-chip:hover { border-color: rgba(0,229,255,0.45); color: var(--c-text); }
+    .ws-cfg-chip.selected {
+      border-color: var(--c-cyan);
+      background: rgba(0,229,255,0.12);
+      color: var(--c-cyan);
+      box-shadow: 0 0 8px rgba(0,229,255,0.2);
+    }
+
+    /* Color swatches */
+    .ws-cfg-colors {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .ws-cfg-swatch {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: transform 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+    }
+    .ws-cfg-swatch:hover { transform: scale(1.18); }
+    .ws-cfg-swatch.selected {
+      border-color: #fff;
+      box-shadow: 0 0 0 3px rgba(255,255,255,0.25);
+      transform: scale(1.1);
+    }
+    .ws-cfg-custom-color {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: 4px;
+    }
+    .ws-cfg-custom-color input[type="color"] {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: none;
+      cursor: pointer;
+      background: none;
+      padding: 0;
+      outline: none;
+    }
+    .ws-cfg-custom-color span {
+      font-size: 0.72rem;
+      color: var(--c-text-dim);
+    }
+
+    /* Text inputs del configurador */
+    .ws-cfg-input {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(0,229,255,0.18);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: var(--c-text);
+      font-size: 0.875rem;
+      font-family: var(--font-mono);
+      outline: none;
+      width: 100%;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .ws-cfg-input::placeholder { color: rgba(200,185,255,0.28); }
+    .ws-cfg-input:focus {
+      border-color: rgba(0,229,255,0.5);
+      box-shadow: 0 0 0 3px rgba(0,229,255,0.1);
+    }
+
+    /* Panel de preview */
+    .ws-cfg-preview {
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+    }
+    .ws-cfg-preview-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--c-text-dim);
+      align-self: flex-start;
+    }
+    .ws-cfg-preview-frame {
+      width: 100%;
+      aspect-ratio: 9/7;
+      background: rgba(255,255,255,0.025);
+      border: 1px dashed rgba(0,229,255,0.2);
+      border-radius: 10px;
+      position: relative;
+      overflow: hidden;
+    }
+    /* Simula el fondo de una web */
+    .ws-cfg-preview-frame::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(transparent 20px, rgba(255,255,255,0.03) 20px, rgba(255,255,255,0.03) 21px, transparent 21px) 0 30px / 100% 44px repeat-y,
+        linear-gradient(transparent 8px, rgba(255,255,255,0.015) 8px, rgba(255,255,255,0.015) 9px, transparent 9px) 24px 0 / 60% 24px repeat-y;
+    }
+    .ws-cfg-preview-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      font-size: 0.62rem;
+      color: rgba(200,185,255,0.2);
+      white-space: nowrap;
+      pointer-events: none;
+    }
+    /* El botón de preview */
+    #cfg-btn-preview {
+      position: absolute;
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.4rem;
+      cursor: default;
+      transition: all 0.3s;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    }
+    #cfg-btn-preview.pos-bottom-right { bottom: 10px; right: 10px; }
+    #cfg-btn-preview.pos-bottom-left  { bottom: 10px; left:  10px; }
+    #cfg-btn-preview.pos-top-right    { top:    10px; right: 10px; }
+    #cfg-btn-preview.pos-top-left     { top:    10px; left:  10px; }
+
+    .ws-cfg-preview-meta {
+      font-size: 0.72rem;
+      color: var(--c-text-dim);
+      text-align: center;
+      line-height: 1.5;
+    }
+    .ws-cfg-preview-meta strong { color: var(--c-text); }
+
+    /* Botón de descarga */
+    .ws-cfg-download-row {
+      padding: 24px 36px 32px;
+      border-top: 1px solid rgba(0,229,255,0.1);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .ws-cfg-download-note {
+      font-size: 0.8rem;
+      color: var(--c-text-dim);
+      line-height: 1.55;
+    }
+    .ws-cfg-download-note strong { color: var(--c-text); }
+
+    #btn-download-demo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 26px;
+      background: linear-gradient(135deg, #00bcd4, #0097a7);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.9rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: all 0.22s;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    #btn-download-demo:hover {
+      background: linear-gradient(135deg, #00e5ff, #00acc1);
+      box-shadow: 0 6px 22px rgba(0,229,255,0.35);
+      transform: translateY(-1px);
+    }
+    #btn-download-demo:active { transform: translateY(0); }
+    #btn-download-demo .dl-icon { font-size: 1.1rem; }
+
+    #btn-download-demo.downloading {
+      background: linear-gradient(135deg, #00e5ff, #00acc1);
+      pointer-events: none;
+      opacity: 0.8;
+    }
   </style>
 </head>
 <body>
@@ -981,6 +1259,135 @@
       </div>
     </div><!-- /.ws-form-section -->
 
+    <!-- ══════════════════════════════════════════
+         CONFIGURADOR — Descarga tu demo
+    ══════════════════════════════════════════ -->
+    <div class="ws-configurator" id="ws-configurator">
+
+      <div class="ws-configurator-header">
+        <div class="ws-configurator-header-icon">🎛️</div>
+        <div>
+          <h2>Configura y descarga tu demo</h2>
+          <p>
+            Personaliza las opciones, previsualiza el botón y descarga un
+            <strong>index.html listo para abrir en el navegador</strong> —
+            sin servidor, sin npm, sin nada.
+          </p>
+        </div>
+      </div>
+
+      <div class="ws-configurator-body">
+
+        <!-- ── Controles ── -->
+        <div class="ws-cfg-controls">
+
+          <!-- Color -->
+          <div class="ws-cfg-group">
+            <div class="ws-cfg-label">
+              <span class="ws-cfg-label-icon">🎨</span> Color del cubo
+            </div>
+            <div class="ws-cfg-colors" id="cfg-colors">
+              <div class="ws-cfg-swatch selected" data-color="#9b3dff" style="background:#9b3dff" title="Púrpura"></div>
+              <div class="ws-cfg-swatch" data-color="#00e5ff" style="background:#00e5ff" title="Cyan"></div>
+              <div class="ws-cfg-swatch" data-color="#00ffaa" style="background:#00ffaa" title="Verde neón"></div>
+              <div class="ws-cfg-swatch" data-color="#ff3cac" style="background:#ff3cac" title="Rosa"></div>
+              <div class="ws-cfg-swatch" data-color="#ffe033" style="background:#ffe033" title="Amarillo"></div>
+              <div class="ws-cfg-swatch" data-color="#ff6b35" style="background:#ff6b35" title="Naranja"></div>
+              <div class="ws-cfg-swatch" data-color="#ffffff" style="background:#fff;border-color:rgba(255,255,255,0.4)" title="Blanco"></div>
+              <div class="ws-cfg-custom-color">
+                <input type="color" id="cfg-color-picker" value="#9b3dff" title="Color personalizado" />
+                <span>Personalizado</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Posición -->
+          <div class="ws-cfg-group">
+            <div class="ws-cfg-label">
+              <span class="ws-cfg-label-icon">📍</span> Posición
+            </div>
+            <div class="ws-cfg-chips" id="cfg-positions">
+              <div class="ws-cfg-chip selected" data-pos="bottom-right">↘ Abajo derecha</div>
+              <div class="ws-cfg-chip" data-pos="bottom-left">↙ Abajo izquierda</div>
+              <div class="ws-cfg-chip" data-pos="top-right">↗ Arriba derecha</div>
+              <div class="ws-cfg-chip" data-pos="top-left">↖ Arriba izquierda</div>
+            </div>
+          </div>
+
+          <!-- Tema -->
+          <div class="ws-cfg-group">
+            <div class="ws-cfg-label">
+              <span class="ws-cfg-label-icon">🌗</span> Tema
+            </div>
+            <div class="ws-cfg-chips" id="cfg-themes">
+              <div class="ws-cfg-chip selected" data-theme="dark">🌑 Dark</div>
+              <div class="ws-cfg-chip" data-theme="light">☀️ Light</div>
+            </div>
+          </div>
+
+          <!-- Site ID -->
+          <div class="ws-cfg-group">
+            <div class="ws-cfg-label">
+              <span class="ws-cfg-label-icon">🔑</span> Site ID <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--c-text-dim);font-size:0.68rem">(opcional para demo)</span>
+            </div>
+            <input
+              type="text"
+              class="ws-cfg-input"
+              id="cfg-site-id"
+              placeholder="Tu Site ID (o déjalo vacío para modo demo)"
+              maxlength="64"
+            />
+          </div>
+
+          <!-- Label / emoji de bienvenida -->
+          <div class="ws-cfg-group">
+            <div class="ws-cfg-label">
+              <span class="ws-cfg-label-icon">💬</span> Texto del botón <span style="font-weight:400;text-transform:none;letter-spacing:0;color:var(--c-text-dim);font-size:0.68rem">(plan Pro)</span>
+            </div>
+            <input
+              type="text"
+              class="ws-cfg-input"
+              id="cfg-label"
+              placeholder="Ej: ¡Hola! o 🎮"
+              maxlength="40"
+            />
+          </div>
+
+        </div><!-- /.ws-cfg-controls -->
+
+        <!-- ── Preview ── -->
+        <div class="ws-cfg-preview">
+          <div class="ws-cfg-preview-title">Vista previa</div>
+
+          <div class="ws-cfg-preview-frame" id="cfg-preview-frame">
+            <span class="ws-cfg-preview-label">Tu web aquí</span>
+            <div id="cfg-btn-preview" class="pos-bottom-right">🟣</div>
+          </div>
+
+          <div class="ws-cfg-preview-meta" id="cfg-preview-meta">
+            Posición: <strong>bottom-right</strong><br>
+            Tema: <strong>dark</strong> · Color: <strong>#9b3dff</strong>
+          </div>
+        </div><!-- /.ws-cfg-preview -->
+
+      </div><!-- /.ws-configurator-body -->
+
+      <!-- ── Fila descarga ── -->
+      <div class="ws-cfg-download-row">
+        <div class="ws-cfg-download-note">
+          <strong>¿Qué se descarga?</strong><br>
+          Un <code style="font-family:monospace;font-size:0.8em;background:rgba(0,229,255,0.08);padding:1px 6px;border-radius:3px;color:#00e5ff">index.html</code>
+          autocontenido con el widget completo (Three.js vía CDN), tus opciones aplicadas y la escena 3D funcional.
+          Ábrelo en cualquier navegador moderno para ver el resultado.
+        </div>
+        <button id="btn-download-demo">
+          <span class="dl-icon">⬇️</span>
+          Descargar index.html
+        </button>
+      </div>
+
+    </div><!-- /.ws-configurator -->
+
   </div><!-- /.ws-container -->
 </section>
 <!-- ══ FIN SECCIÓN WIDGET ══ -->
@@ -1111,6 +1518,722 @@
       }
     });
   }
+
+})();
+
+
+/* ═══════════════════════════════════════════════════════════════
+   CONFIGURADOR — Lógica de preview y descarga
+═══════════════════════════════════════════════════════════════ */
+(function () {
+  'use strict';
+
+  /* ── Estado ── */
+  const cfg = {
+    color:    '#9b3dff',
+    position: 'bottom-right',
+    theme:    'dark',
+    siteId:   '',
+    label:    '',
+  };
+
+  /* ── Referencias DOM ── */
+  const btnPreview   = document.getElementById('cfg-btn-preview');
+  const previewMeta  = document.getElementById('cfg-preview-meta');
+  const colorPicker  = document.getElementById('cfg-color-picker');
+  const siteIdInput  = document.getElementById('cfg-site-id');
+  const labelInput   = document.getElementById('cfg-label');
+  const btnDownload  = document.getElementById('btn-download-demo');
+
+  /* ── Helpers ── */
+  function hexToRgb(hex) {
+    const r = parseInt(hex.slice(1,3),16);
+    const g = parseInt(hex.slice(3,5),16);
+    const b = parseInt(hex.slice(5,7),16);
+    return { r, g, b };
+  }
+  function colorToGlow(hex, alpha) {
+    const { r, g, b } = hexToRgb(hex);
+    return `rgba(${r},${g},${b},${alpha})`;
+  }
+  function posEmoji(pos) {
+    return { 'bottom-right':'↘','bottom-left':'↙','top-right':'↗','top-left':'↖' }[pos] || '↘';
+  }
+
+  /* ── Actualiza el botón de preview ── */
+  function updatePreview() {
+    // Posición
+    btnPreview.className = `pos-${cfg.position}`;
+    // Color + sombra
+    btnPreview.style.background = `linear-gradient(135deg, ${cfg.color}, ${colorToGlow(cfg.color,0.5)})`;
+    btnPreview.style.boxShadow  = `0 4px 20px ${colorToGlow(cfg.color,0.45)}`;
+    // Emoji/label
+    btnPreview.textContent = cfg.label || '🟣';
+    // Meta texto
+    previewMeta.innerHTML =
+      `Posición: <strong>${cfg.position}</strong><br>` +
+      `Tema: <strong>${cfg.theme}</strong> · Color: <strong>${cfg.color}</strong>`;
+    // Sync color picker
+    colorPicker.value = cfg.color;
+  }
+
+  /* ── Chips de posición ── */
+  document.querySelectorAll('#cfg-positions .ws-cfg-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#cfg-positions .ws-cfg-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      cfg.position = chip.dataset.pos;
+      updatePreview();
+    });
+  });
+
+  /* ── Chips de tema ── */
+  document.querySelectorAll('#cfg-themes .ws-cfg-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      document.querySelectorAll('#cfg-themes .ws-cfg-chip').forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      cfg.theme = chip.dataset.theme;
+      updatePreview();
+    });
+  });
+
+  /* ── Swatches de color ── */
+  document.querySelectorAll('#cfg-colors .ws-cfg-swatch').forEach(swatch => {
+    swatch.addEventListener('click', () => {
+      document.querySelectorAll('#cfg-colors .ws-cfg-swatch').forEach(s => s.classList.remove('selected'));
+      swatch.classList.add('selected');
+      cfg.color = swatch.dataset.color;
+      updatePreview();
+    });
+  });
+
+  /* ── Color picker personalizado ── */
+  colorPicker.addEventListener('input', () => {
+    document.querySelectorAll('#cfg-colors .ws-cfg-swatch').forEach(s => s.classList.remove('selected'));
+    cfg.color = colorPicker.value;
+    updatePreview();
+  });
+
+  /* ── Inputs de texto ── */
+  siteIdInput.addEventListener('input', () => { cfg.siteId = siteIdInput.value.trim(); });
+  labelInput.addEventListener('input', () => {
+    cfg.label = labelInput.value.trim();
+    updatePreview();
+  });
+
+  /* ── GENERADOR DEL index.html DESCARGABLE ── */
+  function buildDemoHtml(cfg) {
+    const { r, g, b } = hexToRgb(cfg.color);
+    const colorRgb = `${r}, ${g}, ${b}`;
+
+    // Posición → coordenadas CSS
+    const posMap = {
+      'bottom-right': 'bottom: 28px; right: 28px;',
+      'bottom-left':  'bottom: 28px; left:  28px;',
+      'top-right':    'top:    28px; right: 28px;',
+      'top-left':     'top:    28px; left:  28px;',
+    };
+    const posCSS = posMap[cfg.position] || posMap['bottom-right'];
+
+    // Colores del tema
+    const bgColor     = cfg.theme === 'light' ? '#f4f0ff' : '#000008';
+    const textColor   = cfg.theme === 'light' ? '#1a0033' : '#e8e0ff';
+    const panelBg     = cfg.theme === 'light' ? 'rgba(240,235,255,0.95)' : 'rgba(4, 0, 18, 0.92)';
+    const panelBorder = cfg.theme === 'light' ? `rgba(${colorRgb}, 0.35)` : `rgba(${colorRgb}, 0.4)`;
+
+    const siteIdAttr = cfg.siteId ? `\n      data-cubo-site-id="${cfg.siteId}"` : '';
+    const labelAttr  = cfg.label  ? `\n      data-label="${cfg.label}"` : '';
+
+    return `<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Cubo Sensible — Demo Widget</title>
+
+  <!--
+    ╔═══════════════════════════════════════════════════╗
+    ║  El Cubo Sensible — Demo descargado               ║
+    ║  Generado automáticamente con el configurador     ║
+    ║                                                   ║
+    ║  Opciones aplicadas:                              ║
+    ║    Color:    ${cfg.color.padEnd(20)}           ║
+    ║    Posición: ${cfg.position.padEnd(20)}           ║
+    ║    Tema:     ${cfg.theme.padEnd(20)}           ║
+    ║    Site ID:  ${(cfg.siteId || '(demo)').padEnd(20)}           ║
+    ╚═══════════════════════════════════════════════════╝
+  -->
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cubo-color:   ${cfg.color};
+      --cubo-color-r: ${r};
+      --cubo-color-g: ${g};
+      --cubo-color-b: ${b};
+    }
+
+    html, body {
+      width: 100%; height: 100%;
+      background: ${bgColor};
+      color: ${textColor};
+      font-family: system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── Página de fondo mínima ── */
+    .demo-bg {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      pointer-events: none;
+      user-select: none;
+      opacity: 0.25;
+    }
+    .demo-bg-title {
+      font-size: clamp(1.4rem, 4vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+    .demo-bg-sub {
+      font-size: 0.9rem;
+      opacity: 0.6;
+    }
+
+    /* ════════════════════════════════════════════
+       CUBO WIDGET — Estilos del botón y panel
+       (equivalente al Shadow DOM de producción)
+    ════════════════════════════════════════════ */
+
+    #cubo-widget-wrapper {
+      position: fixed;
+      ${posCSS}
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: ${cfg.position.includes('right') ? 'flex-end' : 'flex-start'};
+      gap: 12px;
+    }
+
+    /* ── Panel expandible ── */
+    #cubo-panel {
+      width: 320px;
+      height: 400px;
+      background: ${panelBg};
+      border: 1px solid ${panelBorder};
+      border-radius: 20px;
+      overflow: hidden;
+      display: none;
+      flex-direction: column;
+      position: relative;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      box-shadow: 0 16px 48px rgba(0,0,0,0.4), 0 0 0 1px ${panelBorder};
+      animation: cuboSlideIn 0.3s cubic-bezier(.34,1.56,.64,1);
+    }
+    #cubo-panel.open { display: flex; }
+
+    @keyframes cuboSlideIn {
+      from { opacity: 0; transform: scale(0.88) translateY(${cfg.position.includes('bottom') ? '12px' : '-12px'}); }
+      to   { opacity: 1; transform: scale(1)    translateY(0); }
+    }
+
+    #cubo-canvas-wrap {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+    }
+    #cubo-canvas {
+      width: 100% !important;
+      height: 100% !important;
+      display: block;
+    }
+
+    #cubo-panel-footer {
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid ${panelBorder};
+      font-size: 0.72rem;
+      opacity: 0.6;
+      font-family: 'Courier New', monospace;
+    }
+    #cubo-mood-label {
+      color: ${textColor};
+      letter-spacing: 0.05em;
+    }
+    #cubo-close-btn {
+      cursor: pointer;
+      color: ${textColor};
+      background: none;
+      border: none;
+      font-size: 0.85rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      transition: opacity 0.15s;
+      opacity: 0.5;
+    }
+    #cubo-close-btn:hover { opacity: 1; }
+
+    /* ── Botón flotante ── */
+    #cubo-trigger {
+      width: 60px;
+      height: 60px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, ${cfg.color}, rgba(${colorRgb}, 0.7));
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.6rem;
+      box-shadow: 0 4px 24px rgba(${colorRgb}, 0.5), 0 2px 8px rgba(0,0,0,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+      animation: cuboBounceIn 0.6s cubic-bezier(.34,1.56,.64,1) 0.3s both;
+      position: relative;
+      overflow: hidden;
+    }
+    #cubo-trigger::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.25), transparent 60%);
+      border-radius: inherit;
+      pointer-events: none;
+    }
+    @keyframes cuboBounceIn {
+      from { opacity: 0; transform: scale(0.4) rotate(-15deg); }
+      to   { opacity: 1; transform: scale(1)   rotate(0deg); }
+    }
+    #cubo-trigger:hover {
+      transform: scale(1.08) rotate(5deg);
+      box-shadow: 0 8px 32px rgba(${colorRgb}, 0.7), 0 2px 8px rgba(0,0,0,0.3);
+    }
+    #cubo-trigger:active { transform: scale(0.95); }
+    #cubo-trigger.panel-open {
+      background: linear-gradient(135deg, rgba(${colorRgb},0.6), rgba(${colorRgb},0.3));
+      box-shadow: 0 2px 12px rgba(${colorRgb},0.3);
+    }
+
+    /* Pulso idle */
+    #cubo-trigger::before {
+      content: '';
+      position: absolute;
+      inset: -2px;
+      border-radius: 18px;
+      background: transparent;
+      border: 2px solid rgba(${colorRgb}, 0.4);
+      animation: cuboIdlePulse 2.5s ease-in-out infinite;
+    }
+    @keyframes cuboIdlePulse {
+      0%,100%{ opacity:0.3; transform:scale(1); }
+      50%    { opacity:0;   transform:scale(1.35); }
+    }
+
+    /* Label opcional debajo del botón */
+    #cubo-trigger-label {
+      display: ${cfg.label ? 'block' : 'none'};
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: rgba(${colorRgb}, 0.9);
+      text-align: center;
+      margin-top: 4px;
+      letter-spacing: 0.04em;
+      font-family: system-ui, sans-serif;
+      text-shadow: 0 0 8px rgba(${colorRgb},0.5);
+    }
+
+    /* ── Tooltip DEMO ── */
+    #cubo-demo-badge {
+      position: absolute;
+      top: -8px;
+      ${cfg.position.includes('right') ? 'right' : 'left'}: -8px;
+      background: #ff3cac;
+      color: #fff;
+      font-size: 0.52rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      padding: 2px 6px;
+      border-radius: 999px;
+      pointer-events: none;
+      display: ${cfg.siteId ? 'none' : 'block'};
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Fondo minimalista de demo -->
+  <div class="demo-bg">
+    <div class="demo-bg-title">Tu web aquí</div>
+    <div class="demo-bg-sub">El cubo flota sobre cualquier contenido</div>
+  </div>
+
+  <!-- ════════════════════════════════════════
+       WIDGET: EL CUBO SENSIBLE
+       Configurado con: posición=${cfg.position}, tema=${cfg.theme}, color=${cfg.color}
+  ════════════════════════════════════════ -->
+  <div id="cubo-widget-wrapper">
+
+    <!-- Panel 3D -->
+    <div id="cubo-panel">
+      <div id="cubo-canvas-wrap">
+        <canvas id="cubo-canvas"></canvas>
+      </div>
+      <div id="cubo-panel-footer">
+        <span id="cubo-mood-label">😐 El Cubo te observa…</span>
+        <button id="cubo-close-btn" aria-label="Cerrar">✕ cerrar</button>
+      </div>
+    </div>
+
+    <!-- Botón flotante -->
+    <div style="position:relative;display:inline-block">
+      <button id="cubo-trigger" aria-label="Abrir El Cubo Sensible">🟣</button>
+      <div id="cubo-demo-badge">DEMO</div>
+    </div>
+    <div id="cubo-trigger-label">${cfg.label || ''}</div>
+
+  </div>
+
+  <!-- Three.js vía CDN -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three":         "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+    }
+  }
+  <\/script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
+    import { RenderPass }     from 'three/addons/postprocessing/RenderPass.js';
+    import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
+
+    /* ── Configuración inyectada ── */
+    const CUBO_COLOR    = '${cfg.color}';
+    const CUBO_THEME    = '${cfg.theme}';
+    const CUBO_POSITION = '${cfg.position}';
+
+    /* ══════════════════════════════════════════
+       TOGGLE PANEL
+    ══════════════════════════════════════════ */
+    const trigger  = document.getElementById('cubo-trigger');
+    const panel    = document.getElementById('cubo-panel');
+    const closeBtn = document.getElementById('cubo-close-btn');
+    const moodLbl  = document.getElementById('cubo-mood-label');
+    let sceneReady = false;
+
+    trigger.addEventListener('click', () => {
+      const isOpen = panel.classList.contains('open');
+      if (isOpen) {
+        panel.classList.remove('open');
+        trigger.classList.remove('panel-open');
+      } else {
+        panel.classList.add('open');
+        trigger.classList.add('panel-open');
+        if (!sceneReady) { initScene(); sceneReady = true; }
+      }
+    });
+
+    closeBtn.addEventListener('click', () => {
+      panel.classList.remove('open');
+      trigger.classList.remove('panel-open');
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && panel.classList.contains('open')) {
+        panel.classList.remove('open');
+        trigger.classList.remove('panel-open');
+      }
+    });
+
+    /* ══════════════════════════════════════════
+       ESCENA THREE.JS
+    ══════════════════════════════════════════ */
+    function initScene() {
+      const canvas = document.getElementById('cubo-canvas');
+      const wrap   = document.getElementById('cubo-canvas-wrap');
+      const W = wrap.clientWidth  || 320;
+      const H = wrap.clientHeight || 340;
+
+      /* Renderer */
+      const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setSize(W, H);
+      renderer.shadowMap.enabled = true;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 1.1;
+
+      /* Escena */
+      const scene = new THREE.Scene();
+
+      /* Cámara */
+      const camera = new THREE.PerspectiveCamera(55, W / H, 0.1, 80);
+      camera.position.set(0, 1.5, 6);
+
+      /* OrbitControls */
+      const controls = new OrbitControls(camera, renderer.domElement);
+      controls.enableDamping = true;
+      controls.dampingFactor = 0.08;
+      controls.minDistance   = 2;
+      controls.maxDistance   = 14;
+      controls.autoRotate    = false;
+
+      /* Luces */
+      scene.add(new THREE.AmbientLight(0xffffff, 0.4));
+      const dirLight = new THREE.DirectionalLight(0xffffff, 1.2);
+      dirLight.position.set(5, 8, 5);
+      dirLight.castShadow = true;
+      scene.add(dirLight);
+
+      const colHex  = parseInt(CUBO_COLOR.replace('#',''), 16);
+      const ptLight = new THREE.PointLight(colHex, 3, 12);
+      ptLight.position.set(0, 2, 3);
+      scene.add(ptLight);
+
+      /* Cubo principal */
+      const segments = 8;
+      const geo  = new THREE.BoxGeometry(2, 2, 2, segments, segments, segments);
+      const mat  = new THREE.MeshPhysicalMaterial({
+        color: colHex,
+        metalness: 0.4,
+        roughness: 0.2,
+        emissive: colHex,
+        emissiveIntensity: 0.12,
+        wireframe: false,
+      });
+      const cube = new THREE.Mesh(geo, mat);
+      cube.castShadow = true;
+      scene.add(cube);
+
+      /* Wireframe overlay sutil */
+      const wfMat = new THREE.MeshBasicMaterial({
+        color: colHex,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.06,
+      });
+      scene.add(new THREE.Mesh(geo, wfMat));
+
+      /* Suelo */
+      const floor = new THREE.Mesh(
+        new THREE.CircleGeometry(8, 64),
+        new THREE.MeshStandardMaterial({
+          color: CUBO_THEME === 'light' ? 0xe8e0ff : 0x060616,
+          roughness: 0.3,
+          metalness: 0.7,
+        })
+      );
+      floor.rotation.x = -Math.PI / 2;
+      floor.position.y = -1.4;
+      floor.receiveShadow = true;
+      scene.add(floor);
+
+      /* Post-processing: Bloom */
+      const composer = new EffectComposer(renderer);
+      composer.addPass(new RenderPass(scene, camera));
+      const bloom = new UnrealBloomPass(
+        new THREE.Vector2(W, H), 0.6, 0.4, 0.85
+      );
+      composer.addPass(bloom);
+
+      /* ── Estado emocional simple ── */
+      const MOODS = [
+        { text: '😐 El Cubo te observa…',   color: colHex, intensity: 0.12 },
+        { text: '😊 ¡El Cubo está feliz!',  color: 0x00ffaa, intensity: 0.28 },
+        { text: '😮 ¡El Cubo se asusta!',   color: 0xff3cac, intensity: 0.4  },
+        { text: '🌀 El Cubo medita…',       color: 0x00e5ff, intensity: 0.2  },
+        { text: '✨ ¡Cubo en éxtasis!',     color: 0xffe033, intensity: 0.5  },
+      ];
+      let moodIdx  = 0;
+      let stress   = 0;
+      let lastHover= false;
+      let lerpT    = 0;
+
+      function setMood(idx) {
+        moodIdx = idx;
+        const m = MOODS[idx];
+        moodLbl.textContent = m.text;
+        mat.emissiveIntensity = m.intensity;
+        const c = new THREE.Color(m.color);
+        mat.emissive.set(c);
+        ptLight.color.set(c);
+      }
+
+      /* Hover / Click */
+      const raycaster = new THREE.Raycaster();
+      const mouse     = new THREE.Vector2(-99, -99);
+      let isHovered   = false;
+      let clickScale  = 0;
+      let isDragging  = false;
+
+      canvas.addEventListener('mousemove', e => {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x =  ((e.clientX - rect.left)  / rect.width ) * 2 - 1;
+        mouse.y = -((e.clientY - rect.top )  / rect.height) * 2 + 1;
+      });
+
+      canvas.addEventListener('mousedown', () => { isDragging = false; });
+      canvas.addEventListener('mousemove', () => { isDragging = true; });
+      canvas.addEventListener('click', e => {
+        if (isDragging) return;
+        raycaster.setFromCamera(mouse, camera);
+        if (raycaster.intersectObject(cube).length > 0) {
+          clickScale = 1;
+          setMood(Math.floor(Math.random() * MOODS.length));
+          // Breve flash
+          mat.emissiveIntensity = 0.8;
+          bloom.strength = 1.2;
+          setTimeout(() => { bloom.strength = 0.6; }, 300);
+        }
+      });
+
+      /* Touch */
+      canvas.addEventListener('touchstart', e => {
+        const t = e.touches[0];
+        const rect = canvas.getBoundingClientRect();
+        mouse.x =  ((t.clientX - rect.left)  / rect.width ) * 2 - 1;
+        mouse.y = -((t.clientY - rect.top )  / rect.height) * 2 + 1;
+        raycaster.setFromCamera(mouse, camera);
+        if (raycaster.intersectObject(cube).length > 0) {
+          clickScale = 1;
+          setMood(Math.floor(Math.random() * MOODS.length));
+        }
+      }, { passive: true });
+
+      /* Resize */
+      const ro = new ResizeObserver(() => {
+        const nw = wrap.clientWidth;
+        const nh = wrap.clientHeight;
+        camera.aspect = nw / nh;
+        camera.updateProjectionMatrix();
+        renderer.setSize(nw, nh);
+        composer.setSize(nw, nh);
+      });
+      ro.observe(wrap);
+
+      /* ── Loop ── */
+      const clock = new THREE.Clock();
+      let spontTimer = 5;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        const dt = clock.getDelta();
+        const elapsed = clock.getElapsedTime();
+
+        /* Detección hover */
+        raycaster.setFromCamera(mouse, camera);
+        const hit = raycaster.intersectObject(cube).length > 0;
+
+        if (hit && !isHovered) {
+          isHovered = true;
+          setMood(2); // asustado
+          stress = Math.min(stress + 0.3, 1);
+        } else if (!hit && isHovered) {
+          isHovered = false;
+          setTimeout(() => setMood(0), 800);
+        }
+
+        /* Squash & stretch en hover */
+        const targetScaleY = isHovered ? 1.08 : 1.0;
+        const targetScaleXZ = isHovered ? 0.95 : 1.0;
+        cube.scale.y  += (targetScaleY  - cube.scale.y)  * 0.1;
+        cube.scale.x  += (targetScaleXZ - cube.scale.x)  * 0.1;
+        cube.scale.z  += (targetScaleXZ - cube.scale.z)  * 0.1;
+
+        /* Click bounce */
+        if (clickScale > 0) {
+          clickScale -= dt * 4;
+          cube.scale.setScalar(1 + Math.sin(clickScale * Math.PI) * 0.25);
+          if (clickScale <= 0) { clickScale = 0; }
+        }
+
+        /* Rotación automática suave */
+        cube.rotation.y += dt * 0.35;
+        cube.rotation.x  = Math.sin(elapsed * 0.3) * 0.12;
+
+        /* Stress decay */
+        stress -= dt * 0.08;
+        stress  = Math.max(0, stress);
+
+        /* Comportamiento espontáneo */
+        spontTimer -= dt;
+        if (spontTimer <= 0) {
+          spontTimer = 4 + Math.random() * 8;
+          if (Math.random() < 0.5) setMood(Math.floor(Math.random() * MOODS.length));
+          // Pequeño glitch de escala
+          cube.scale.setScalar(0.85 + Math.random() * 0.4);
+        }
+
+        /* Luz pulsante */
+        ptLight.intensity = 2.5 + Math.sin(elapsed * 2.1) * 0.6 + stress * 1.5;
+
+        controls.update();
+        composer.render();
+      }
+
+      animate();
+    }
+  <\/script>
+
+<!-- ═══════════════════════════════════════════
+     Snippet de integración (referencia)
+     En producción, reemplaza esto por:
+       <script src="https://cdn.cubowidget.com/v1/cubo-widget.min.js"
+         data-cubo-site-id="${cfg.siteId || 'TU_SITE_ID_AQUI'}"
+         data-position="${cfg.position}"
+         data-theme="${cfg.theme}"
+         data-color="${cfg.color}"
+         ${cfg.label ? `data-label="${cfg.label}"` : ''}
+         async></script>
+════════════════════════════════════════════ -->
+
+</body>
+</html>`;
+  }
+
+  /* ── Descarga ── */
+  btnDownload.addEventListener('click', () => {
+    cfg.siteId = siteIdInput.value.trim();
+    cfg.label  = labelInput.value.trim();
+
+    const html = buildDemoHtml(cfg);
+    const blob = new Blob([html], { type: 'text/html;charset=utf-8' });
+    const url  = URL.createObjectURL(blob);
+
+    const a = document.createElement('a');
+    a.href     = url;
+    a.download = 'cubo-sensible-demo.html';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+
+    btnDownload.classList.add('downloading');
+    btnDownload.innerHTML = '<span class="dl-icon">⏳</span> Generando…';
+
+    // pequeño delay para que el botón anime
+    setTimeout(() => {
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      btnDownload.innerHTML = '<span class="dl-icon">✅</span> ¡Descargado!';
+      setTimeout(() => {
+        btnDownload.classList.remove('downloading');
+        btnDownload.innerHTML = '<span class="dl-icon">⬇️</span> Descargar index.html';
+      }, 2500);
+    }, 350);
+  });
+
+  /* ── Init ── */
+  updatePreview();
 
 })();
 </script>
