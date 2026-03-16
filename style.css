@@ -1,133 +1,412 @@
-/* =============================================
-   RESET Y BASE
-   ============================================= */
-*, *::before, *::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* ═══════════════════════════════════════════════════════════
+   El Cubo Sensible — Stylesheet
+   Estética: neón surreal, adorable-extraño, anti-corporativo
+═══════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Space+Mono:wght@400;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --neon-purple:  #bf00ff;
+  --neon-cyan:    #00ffff;
+  --neon-green:   #00ff88;
+  --neon-pink:    #ff00aa;
+  --neon-yellow:  #ffdd00;
+  --neon-red:     #ff2200;
+
+  --bg:           #000008;
+  --panel-bg:     rgba(5, 0, 20, 0.82);
+  --border:       rgba(191, 0, 255, 0.3);
+  --text:         #e8e0ff;
+  --text-dim:     rgba(200, 180, 255, 0.55);
+
+  --font-ui:      'Space Grotesk', system-ui, sans-serif;
+  --font-mono:    'Space Mono', monospace;
+  --radius:       10px;
 }
 
 html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden; /* El canvas ocupa toda la pantalla */
-  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  width: 100%; height: 100%;
+  overflow: hidden;
+  font-family: var(--font-ui);
+  color: var(--text);
+  background: var(--bg);
 }
 
-/* =============================================
-   CONTENEDOR DEL CANVAS 3D
-   El canvas de Three.js se inserta aquí por JS
-   ============================================= */
+/* ═══════════════════════════════════════════════════════════
+   CANVAS
+═══════════════════════════════════════════════════════════ */
 #canvas-container {
   position: fixed;
-  inset: 0;           /* shorthand para top/right/bottom/left: 0 */
+  inset: 0;
   z-index: 0;
-  /* Fondo degradado tipo cielo nocturno */
-  background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0a0a1a 60%, #000008 100%);
+  cursor: crosshair;
+  background: radial-gradient(ellipse at 50% 50%, #0d0022 0%, #000008 70%);
 }
-
-/* El canvas generado por Three.js hereda el tamaño completo */
 #canvas-container canvas {
   display: block;
   width: 100% !important;
   height: 100% !important;
 }
 
-/* =============================================
-   UI OVERLAY - Título y controles
-   ============================================= */
-#ui-overlay {
+/* ═══════════════════════════════════════════════════════════
+   PANEL BASE — usado por varios elementos
+═══════════════════════════════════════════════════════════ */
+.panel {
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MOOD DISPLAY — estado emocional del cubo
+═══════════════════════════════════════════════════════════ */
+#mood-display {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  z-index: 10;
-  padding: 24px 32px;
-  /* Degradado oscuro para que el texto sea legible */
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.65) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  pointer-events: none; /* No bloquea los clicks al canvas */
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 24px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 999px;
+  white-space: nowrap;
+  max-width: 90vw;
 }
 
-.title {
-  font-size: clamp(1.4rem, 4vw, 2.2rem);
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: 0.04em;
-  text-shadow: 0 0 20px rgba(100, 160, 255, 0.8);
+#mood-icon {
+  font-size: 1.6rem;
+  line-height: 1;
+  animation: iconBob 2s ease-in-out infinite;
+}
+@keyframes iconBob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
 }
 
-.subtitle {
-  margin-top: 6px;
-  font-size: clamp(0.75rem, 2vw, 0.9rem);
-  color: rgba(200, 215, 255, 0.75);
+#mood-text {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--text);
+  font-family: var(--font-mono);
   letter-spacing: 0.02em;
+  animation: textFade 0.4s ease;
+}
+@keyframes textFade {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
-/* Indicador del color actual */
-#color-indicator {
+/* ═══════════════════════════════════════════════════════════
+   BARRA DE ESTRÉS
+═══════════════════════════════════════════════════════════ */
+#stress-bar-wrapper {
+  position: fixed;
+  top: 24px;
+  left: 24px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 160px;
+}
+
+#stress-label {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+}
+
+#stress-bar-track {
+  width: 100%;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+#stress-bar-fill {
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--neon-green), var(--neon-cyan));
+  transition: width 0.3s ease, background 0.5s ease;
+  box-shadow: 0 0 8px currentColor;
+}
+
+#stress-value {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PANEL DE DESAFÍOS
+═══════════════════════════════════════════════════════════ */
+#challenge-box {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  z-index: 20;
+  padding: 14px 18px;
+  background: var(--panel-bg);
+  border: 1px solid rgba(0, 255, 136, 0.3);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+  min-width: 200px;
+  max-width: 240px;
+}
+
+#challenge-title {
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  color: var(--neon-green);
+  text-shadow: 0 0 8px var(--neon-green);
+  margin-bottom: 8px;
+}
+
+#challenge-text {
+  font-size: 0.78rem;
+  color: var(--text);
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+#challenge-progress {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 8px var(--neon-cyan);
+  text-align: right;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HINT BOX — mensajes emergentes
+═══════════════════════════════════════════════════════════ */
+#hint-box {
+  position: fixed;
+  bottom: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 30;
+  padding: 14px 28px;
+  background: rgba(0, 255, 255, 0.08);
+  border: 1px solid rgba(0, 255, 255, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 999px;
+  max-width: 85vw;
+  text-align: center;
+  pointer-events: none;
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+#hint-box.hidden {
+  display: none;
+}
+#hint-box.show {
+  animation: hintPop 0.4s cubic-bezier(.34, 1.56, .64, 1);
+}
+@keyframes hintPop {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px) scale(0.92); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0)    scale(1); }
+}
+
+#hint-text {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: var(--neon-cyan);
+  text-shadow: 0 0 10px var(--neon-cyan);
+  letter-spacing: 0.01em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CONTROLES — leyenda de interacciones
+═══════════════════════════════════════════════════════════ */
+#controls-panel {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 18px;
+  background: var(--panel-bg);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: var(--radius);
+}
+
+.ctrl-row {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-top: 14px;
-  font-size: 0.85rem;
-  color: rgba(200, 215, 255, 0.85);
+  font-size: 0.72rem;
+  color: var(--text-dim);
 }
 
-#color-swatch {
+kbd {
   display: inline-block;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 2px solid rgba(255,255,255,0.4);
-  background: #4a90e2;           /* color inicial — se actualiza por JS */
-  transition: background 0.4s ease;
-  box-shadow: 0 0 10px currentColor;
+  padding: 2px 8px;
+  background: rgba(191, 0, 255, 0.15);
+  border: 1px solid rgba(191, 0, 255, 0.4);
+  border-radius: 4px;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--neon-purple);
+  text-shadow: 0 0 6px var(--neon-purple);
+  min-width: 48px;
+  text-align: center;
+  letter-spacing: 0.03em;
 }
 
-/* =============================================
-   PANEL DE AYUDA INFERIOR
-   ============================================= */
-#hint-panel {
+/* ═══════════════════════════════════════════════════════════
+   BOTÓN MICRÓFONO
+═══════════════════════════════════════════════════════════ */
+#btn-mic {
   position: fixed;
   bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 10;
-  padding: 10px 22px;
-  background: rgba(255, 255, 255, 0.08);
+  right: 24px;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  background: rgba(255, 0, 170, 0.12);
+  border: 1px solid rgba(255, 0, 170, 0.4);
+  border-radius: 999px;
+  color: var(--neon-pink);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: 999px;
-  color: rgba(220, 230, 255, 0.85);
-  font-size: 0.82rem;
+  transition: all 0.2s ease;
+  text-shadow: 0 0 8px var(--neon-pink);
+}
+#btn-mic:hover {
+  background: rgba(255, 0, 170, 0.25);
+  box-shadow: 0 0 20px rgba(255, 0, 170, 0.4);
+  transform: scale(1.04);
+}
+#btn-mic:active {
+  transform: scale(0.97);
+}
+#btn-mic.active {
+  background: rgba(255, 0, 170, 0.3);
+  border-color: var(--neon-pink);
+  box-shadow: 0 0 24px rgba(255, 0, 170, 0.6);
+  animation: micPulse 1s ease-in-out infinite alternate;
+}
+@keyframes micPulse {
+  from { box-shadow: 0 0 16px rgba(255,0,170,0.4); }
+  to   { box-shadow: 0 0 32px rgba(255,0,170,0.8); }
+}
+
+#mic-icon { font-size: 1.1rem; }
+
+/* ═══════════════════════════════════════════════════════════
+   SCANLINES — efecto CRT sutil para el fondo
+═══════════════════════════════════════════════════════════ */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 100;
   pointer-events: none;
-  white-space: nowrap;
-
-  /* Animación de entrada */
-  animation: fadeUp 0.8s ease 0.5s both;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
-  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
-}
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR GLOBAL
+═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
 
-/* =============================================
-   RESPONSIVE - pantallas pequeñas
-   ============================================= */
-@media (max-width: 480px) {
-  #ui-overlay {
-    padding: 16px 20px;
-  }
-
-  #hint-panel {
-    bottom: 16px;
-    font-size: 0.72rem;
+/* ═══════════════════════════════════════════════════════════
+   RESPONSIVE — móvil
+═══════════════════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  #mood-display {
+    top: 12px;
     padding: 8px 16px;
+    font-size: 0.8rem;
   }
+  #mood-icon { font-size: 1.2rem; }
+  #mood-text { font-size: 0.75rem; }
+
+  #stress-bar-wrapper {
+    top: auto;
+    bottom: 80px;
+    left: 12px;
+    min-width: 120px;
+  }
+
+  #challenge-box {
+    top: auto;
+    bottom: 80px;
+    right: 12px;
+    min-width: 140px;
+    max-width: 160px;
+    padding: 10px 12px;
+  }
+  #challenge-text { font-size: 0.7rem; }
+
+  #controls-panel { display: none; } /* ocultar en móvil para no saturar */
+
+  #btn-mic {
+    bottom: 16px;
+    right: 16px;
+    padding: 10px 14px;
+    font-size: 0.75rem;
+  }
+
+  #hint-box {
+    bottom: 80px;
+    padding: 10px 18px;
+    font-size: 0.72rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ANIMACIONES EXTRA
+═══════════════════════════════════════════════════════════ */
+
+/* Pulso de neón genérico para bordes */
+@keyframes neonBorder {
+  0%, 100% { border-color: rgba(191, 0, 255, 0.3); box-shadow: none; }
+  50%       { border-color: rgba(191, 0, 255, 0.7); box-shadow: 0 0 12px rgba(191, 0, 255, 0.3); }
+}
+
+/* Glitch de texto (para el modo GLITCH) */
+@keyframes textGlitch {
+  0%  { clip-path: inset(20% 0 80% 0); transform: translate(-4px, 0); }
+  20% { clip-path: inset(60% 0 30% 0); transform: translate(4px, 0); }
+  40% { clip-path: inset(10% 0 70% 0); transform: translate(-2px, 0); }
+  60% { clip-path: inset(80% 0 10% 0); transform: translate(2px, 0); }
+  80% { clip-path: inset(40% 0 50% 0); transform: translate(-4px, 0); }
+  100%{ clip-path: inset(0% 0 100% 0); transform: translate(0, 0); }
 }

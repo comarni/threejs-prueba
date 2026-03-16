@@ -3,44 +3,66 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Three.js Demo 3D</title>
+  <title>El Cubo Sensible — Siente, Reacciona, Existe</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <!-- Contenedor principal del canvas 3D -->
+  <!-- CANVAS 3D -->
   <div id="canvas-container"></div>
 
-  <!-- Interfaz de usuario superpuesta -->
-  <div id="ui-overlay">
-    <h1 class="title">Three.js Demo</h1>
-    <p class="subtitle">Arrastra para rotar &nbsp;·&nbsp; Scroll para zoom &nbsp;·&nbsp; Click para cambiar color</p>
-    <div id="color-indicator">
-      <span id="color-label">Color actual:</span>
-      <span id="color-swatch"></span>
+  <!-- ESTADO EMOCIONAL -->
+  <div id="mood-display">
+    <div id="mood-icon">😐</div>
+    <div id="mood-text">El Cubo te observa…</div>
+  </div>
+
+  <!-- BARRA DE STRESS -->
+  <div id="stress-bar-wrapper">
+    <div id="stress-label">ESTRÉS</div>
+    <div id="stress-bar-track">
+      <div id="stress-bar-fill"></div>
     </div>
+    <div id="stress-value">0%</div>
   </div>
 
-  <!-- Panel de ayuda inferior -->
-  <div id="hint-panel">
-    <span>💡 Haz click sobre el cubo para cambiar de color</span>
+  <!-- MINI DESAFIO -->
+  <div id="challenge-box">
+    <div id="challenge-title">DESAFIO</div>
+    <div id="challenge-text">Haz hover 10 veces sobre el cubo</div>
+    <div id="challenge-progress">0 / 10</div>
   </div>
 
-  <!--
-    Three.js cargado desde CDN (importmap para módulos ES6).
-    Esto permite usar "import * from 'three'" sin bundler.
-  -->
+  <!-- EASTER EGG HINT -->
+  <div id="hint-box" class="hidden">
+    <span id="hint-text"></span>
+  </div>
+
+  <!-- CONTROLES INFO -->
+  <div id="controls-panel">
+    <div class="ctrl-row"><kbd>Hover</kbd> El cubo se pone nervioso</div>
+    <div class="ctrl-row"><kbd>Click</kbd> Explosión emocional</div>
+    <div class="ctrl-row"><kbd>Hold</kbd> Se derrite de sufrimiento</div>
+    <div class="ctrl-row"><kbd>Doble</kbd> Glitch interdimensional</div>
+    <div class="ctrl-row"><kbd>Scroll</kbd> Ondas existenciales</div>
+    <div class="ctrl-row"><kbd>Mic</kbd> Baila o se esconde</div>
+  </div>
+
+  <!-- BOTON MICROFONO -->
+  <button id="btn-mic" title="Activar micrófono">
+    <span id="mic-icon">🎤</span>
+    <span id="mic-label">Activar Mic</span>
+  </button>
+
+  <!-- Three.js sin bundler -->
   <script type="importmap">
-    {
-      "imports": {
-        "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
-        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
-      }
+  {
+    "imports": {
+      "three":         "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
     }
+  }
   </script>
-
-  <!-- Módulo principal de la aplicación -->
   <script type="module" src="main.js"></script>
-
 </body>
 </html>
