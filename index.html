@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Three.js Demo 3D</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Contenedor principal del canvas 3D -->
+  <div id="canvas-container"></div>
+
+  <!-- Interfaz de usuario superpuesta -->
+  <div id="ui-overlay">
+    <h1 class="title">Three.js Demo</h1>
+    <p class="subtitle">Arrastra para rotar &nbsp;·&nbsp; Scroll para zoom &nbsp;·&nbsp; Click para cambiar color</p>
+    <div id="color-indicator">
+      <span id="color-label">Color actual:</span>
+      <span id="color-swatch"></span>
+    </div>
+  </div>
+
+  <!-- Panel de ayuda inferior -->
+  <div id="hint-panel">
+    <span>💡 Haz click sobre el cubo para cambiar de color</span>
+  </div>
+
+  <!--
+    Three.js cargado desde CDN (importmap para módulos ES6).
+    Esto permite usar "import * from 'three'" sin bundler.
+  -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.163.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.163.0/examples/jsm/"
+      }
+    }
+  </script>
+
+  <!-- Módulo principal de la aplicación -->
+  <script type="module" src="main.js"></script>
+
+</body>
+</html>

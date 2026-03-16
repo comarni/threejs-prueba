@@ -1,0 +1,133 @@
+/* =============================================
+   RESET Y BASE
+   ============================================= */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden; /* El canvas ocupa toda la pantalla */
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* =============================================
+   CONTENEDOR DEL CANVAS 3D
+   El canvas de Three.js se inserta aquí por JS
+   ============================================= */
+#canvas-container {
+  position: fixed;
+  inset: 0;           /* shorthand para top/right/bottom/left: 0 */
+  z-index: 0;
+  /* Fondo degradado tipo cielo nocturno */
+  background: radial-gradient(ellipse at 50% 0%, #1a1a3e 0%, #0a0a1a 60%, #000008 100%);
+}
+
+/* El canvas generado por Three.js hereda el tamaño completo */
+#canvas-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+/* =============================================
+   UI OVERLAY - Título y controles
+   ============================================= */
+#ui-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 10;
+  padding: 24px 32px;
+  /* Degradado oscuro para que el texto sea legible */
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  pointer-events: none; /* No bloquea los clicks al canvas */
+}
+
+.title {
+  font-size: clamp(1.4rem, 4vw, 2.2rem);
+  font-weight: 700;
+  color: #ffffff;
+  letter-spacing: 0.04em;
+  text-shadow: 0 0 20px rgba(100, 160, 255, 0.8);
+}
+
+.subtitle {
+  margin-top: 6px;
+  font-size: clamp(0.75rem, 2vw, 0.9rem);
+  color: rgba(200, 215, 255, 0.75);
+  letter-spacing: 0.02em;
+}
+
+/* Indicador del color actual */
+#color-indicator {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: rgba(200, 215, 255, 0.85);
+}
+
+#color-swatch {
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.4);
+  background: #4a90e2;           /* color inicial — se actualiza por JS */
+  transition: background 0.4s ease;
+  box-shadow: 0 0 10px currentColor;
+}
+
+/* =============================================
+   PANEL DE AYUDA INFERIOR
+   ============================================= */
+#hint-panel {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  padding: 10px 22px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 999px;
+  color: rgba(220, 230, 255, 0.85);
+  font-size: 0.82rem;
+  pointer-events: none;
+  white-space: nowrap;
+
+  /* Animación de entrada */
+  animation: fadeUp 0.8s ease 0.5s both;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateX(-50%) translateY(12px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* =============================================
+   RESPONSIVE - pantallas pequeñas
+   ============================================= */
+@media (max-width: 480px) {
+  #ui-overlay {
+    padding: 16px 20px;
+  }
+
+  #hint-panel {
+    bottom: 16px;
+    font-size: 0.72rem;
+    padding: 8px 16px;
+  }
+}
