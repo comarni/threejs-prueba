@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>El Cubo Sensible — Widget de Integración</title>
+
+  <!-- ══════════════════════════════════════════════════════
+       Este archivo es la SECCIÓN completa lista para
+       copiar/pegar dentro de tu landing existente.
+       Incluye todo lo necesario: HTML + CSS + JS inline.
+  ══════════════════════════════════════════════════════ -->
+
+  <style>
+    /* ── Reset mínimo y variables ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --c-bg:          #06030f;
+      --c-surface:     #0d0820;
+      --c-surface2:    #120d2a;
+      --c-border:      rgba(140, 60, 255, 0.22);
+      --c-border-glow: rgba(140, 60, 255, 0.55);
+      --c-purple:      #9b3dff;
+      --c-cyan:        #00e5ff;
+      --c-green:       #00ffaa;
+      --c-pink:        #ff3cac;
+      --c-yellow:      #ffe033;
+      --c-text:        #e2d9ff;
+      --c-text-dim:    rgba(200, 185, 255, 0.55);
+      --c-code-bg:     #070412;
+      --radius-md:     12px;
+      --radius-lg:     20px;
+      --font-sans:     'Inter', system-ui, sans-serif;
+      --font-mono:     'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+    }
+
+    body {
+      background: var(--c-bg);
+      color: var(--c-text);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+    }
+
+    /* ══════════════════════════════════════════════
+       SECCIÓN PRINCIPAL — #widget-section
+    ══════════════════════════════════════════════ */
+    #widget-section {
+      position: relative;
+      padding: 100px 24px 120px;
+      overflow: hidden;
+    }
+
+    /* Fondo decorativo con gradientes */
+    #widget-section::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 45% at 15% 20%, rgba(100,30,255,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 85% 80%, rgba(0,229,255,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .ws-container {
+      max-width: 1040px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── Etiqueta superior ── */
+    .ws-eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 14px;
+      background: rgba(155, 61, 255, 0.12);
+      border: 1px solid rgba(155, 61, 255, 0.35);
+      border-radius: 999px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-purple);
+      margin-bottom: 24px;
+    }
+    .ws-eyebrow-dot {
+      width: 6px; height: 6px;
+      background: var(--c-purple);
+      border-radius: 50%;
+      animation: pulseDot 2s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100%{ opacity:1; transform:scale(1); }
+      50%{ opacity:0.4; transform:scale(0.7); }
+    }
+
+    /* ── Título principal ── */
+    .ws-title {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 0%, #c8a8ff 45%, #00e5ff 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .ws-subtitle {
+      font-size: 1.05rem;
+      color: var(--c-text-dim);
+      max-width: 540px;
+      margin-bottom: 64px;
+      line-height: 1.7;
+    }
+    .ws-subtitle strong { color: var(--c-text); font-weight: 600; }
+
+    /* ══════════════════════════════════════════════
+       GRID PRINCIPAL — 2 columnas
+    ══════════════════════════════════════════════ */
+    .ws-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-bottom: 64px;
+    }
+    @media (max-width: 760px) { .ws-grid { grid-template-columns: 1fr; } }
+
+    /* ── Tarjeta genérica ── */
+    .ws-card {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      transition: border-color 0.3s;
+    }
+    .ws-card:hover { border-color: var(--c-border-glow); }
+
+    .ws-card-icon {
+      font-size: 1.8rem;
+      margin-bottom: 14px;
+      display: block;
+    }
+    .ws-card-title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #fff;
+    }
+    .ws-card-body {
+      font-size: 0.875rem;
+      color: var(--c-text-dim);
+      line-height: 1.7;
+    }
+    .ws-card-body strong { color: var(--c-text); }
+
+    /* ── Tarjeta de características (lista) ── */
+    .ws-feature-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 14px;
+    }
+    .ws-feature-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.85rem;
+      color: var(--c-text-dim);
+    }
+    .ws-feature-list li::before {
+      content: '◆';
+      color: var(--c-purple);
+      font-size: 0.55rem;
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    /* ══════════════════════════════════════════════
+       BLOQUE SNIPPET — "Cómo integrarlo"
+    ══════════════════════════════════════════════ */
+    .ws-integration {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 64px;
+    }
+
+    .ws-integration-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 22px 32px;
+      border-bottom: 1px solid var(--c-border);
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+    .ws-integration-header h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .ws-integration-header p {
+      font-size: 0.82rem;
+      color: var(--c-text-dim);
+      margin-top: 3px;
+    }
+
+    /* ── Pestañas ── */
+    .ws-tabs {
+      display: flex;
+      gap: 6px;
+      padding: 20px 32px 0;
+      border-bottom: 1px solid var(--c-border);
+    }
+    .ws-tab {
+      padding: 8px 18px;
+      border-radius: 8px 8px 0 0;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-bottom: none;
+      transition: all 0.2s;
+      color: var(--c-text-dim);
+      background: transparent;
+      letter-spacing: 0.02em;
+    }
+    .ws-tab.active {
+      background: var(--c-code-bg);
+      border-color: var(--c-border);
+      color: var(--c-cyan);
+    }
+    .ws-tab:not(.active):hover { color: var(--c-text); }
+
+    /* ── Bloque de código ── */
+    .ws-tab-content { display: none; }
+    .ws-tab-content.active { display: block; }
+
+    .ws-code-block {
+      position: relative;
+      background: var(--c-code-bg);
+      padding: 28px 32px;
+    }
+    .ws-code-block pre {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      line-height: 1.75;
+      color: #c9d1d9;
+      overflow-x: auto;
+      white-space: pre;
+    }
+
+    /* Coloreado sintaxis manual */
+    .tok-tag      { color: #7ee787; }
+    .tok-attr     { color: #79c0ff; }
+    .tok-val      { color: #a5d6ff; }
+    .tok-str      { color: #f0883e; }
+    .tok-cmt      { color: #8b949e; font-style: italic; }
+    .tok-kw       { color: #ff7b72; }
+    .tok-fn       { color: #d2a8ff; }
+    .tok-prop     { color: #79c0ff; }
+    .tok-num      { color: #f0883e; }
+    .tok-punct    { color: #8b949e; }
+
+    /* Botón copiar */
+    .ws-copy-btn {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      background: rgba(155,61,255,0.15);
+      border: 1px solid rgba(155,61,255,0.35);
+      border-radius: 6px;
+      color: var(--c-purple);
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-sans);
+    }
+    .ws-copy-btn:hover { background:rgba(155,61,255,0.28); }
+    .ws-copy-btn.copied { color:var(--c-green); border-color:rgba(0,255,170,0.4); background:rgba(0,255,170,0.1); }
+
+    /* ── Pasos de integración ── */
+    .ws-steps {
+      padding: 32px;
+      border-top: 1px solid var(--c-border);
+    }
+    .ws-steps h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 20px;
+    }
+    .ws-step-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .ws-step {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+    .ws-step-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: rgba(155,61,255,0.18);
+      border: 1px solid rgba(155,61,255,0.45);
+      color: var(--c-purple);
+      font-size: 0.72rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+    .ws-step-text {
+      font-size: 0.875rem;
+      color: var(--c-text-dim);
+      line-height: 1.6;
+    }
+    .ws-step-text strong { color: var(--c-text); font-weight: 600; }
+    .ws-step-text code {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      background: rgba(155,61,255,0.12);
+      border: 1px solid rgba(155,61,255,0.2);
+      padding: 1px 7px;
+      border-radius: 4px;
+      color: var(--c-cyan);
+    }
+
+    /* ══════════════════════════════════════════════
+       PLANES DE PRECIO
+    ══════════════════════════════════════════════ */
+    .ws-plans {
+      margin-bottom: 64px;
+    }
+    .ws-section-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .ws-section-sub {
+      font-size: 0.88rem;
+      color: var(--c-text-dim);
+      margin-bottom: 32px;
+    }
+
+    .ws-plans-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    @media(max-width:760px){ .ws-plans-grid{ grid-template-columns:1fr; } }
+    @media(min-width:761px) and (max-width:940px){ .ws-plans-grid{ grid-template-columns:1fr 1fr; } }
+
+    .ws-plan {
+      background: var(--c-surface);
+      border: 1px solid var(--c-border);
+      border-radius: var(--radius-lg);
+      padding: 28px 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      transition: border-color 0.3s, transform 0.2s;
+    }
+    .ws-plan:hover { transform: translateY(-3px); border-color: var(--c-border-glow); }
+    .ws-plan.featured {
+      border-color: rgba(155,61,255,0.6);
+      background: linear-gradient(145deg, #120d2a, #0d0820);
+      position: relative;
+    }
+    .ws-plan-badge {
+      position: absolute;
+      top: -11px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 3px 14px;
+      background: var(--c-purple);
+      border-radius: 999px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .ws-plan-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--c-purple);
+    }
+    .ws-plan-price {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+    }
+    .ws-plan-price .amount {
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1;
+    }
+    .ws-plan-price .currency { font-size: 1.1rem; font-weight: 700; color: var(--c-text-dim); }
+    .ws-plan-price .period  { font-size: 0.78rem; color: var(--c-text-dim); }
+    .ws-plan-desc { font-size: 0.82rem; color: var(--c-text-dim); line-height: 1.6; }
+    .ws-plan-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+      flex: 1;
+    }
+    .ws-plan-features li {
+      display: flex;
+      align-items: flex-start;
+      gap: 9px;
+      font-size: 0.82rem;
+      color: var(--c-text-dim);
+    }
+    .ws-plan-features li.active { color: var(--c-text); }
+    .ws-plan-features li::before {
+      content: '✓';
+      color: var(--c-green);
+      font-weight: 700;
+      font-size: 0.75rem;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+    .ws-plan-features li.disabled { opacity: 0.35; }
+    .ws-plan-features li.disabled::before { content: '–'; color: var(--c-text-dim); }
+
+    .ws-plan-cta {
+      display: block;
+      text-align: center;
+      padding: 12px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: 1px solid;
+    }
+    .ws-plan-cta.outline {
+      border-color: rgba(155,61,255,0.4);
+      color: var(--c-purple);
+      background: transparent;
+    }
+    .ws-plan-cta.outline:hover { background: rgba(155,61,255,0.12); }
+    .ws-plan-cta.solid {
+      background: var(--c-purple);
+      border-color: var(--c-purple);
+      color: #fff;
+    }
+    .ws-plan-cta.solid:hover { background: #8230f0; box-shadow: 0 0 20px rgba(155,61,255,0.45); }
+
+    /* ══════════════════════════════════════════════
+       FORMULARIO CTA — "Quiero el Cubo"
+    ══════════════════════════════════════════════ */
+    .ws-form-section {
+      background: linear-gradient(135deg, #120d2a 0%, #0a0620 60%, #060318 100%);
+      border: 1px solid rgba(155,61,255,0.35);
+      border-radius: var(--radius-lg);
+      padding: 52px 48px;
+      display: flex;
+      gap: 60px;
+      align-items: flex-start;
+      position: relative;
+      overflow: hidden;
+    }
+    @media(max-width:760px){
+      .ws-form-section { flex-direction:column; padding:36px 24px; gap:36px; }
+    }
+
+    /* Decoración fondo */
+    .ws-form-section::before {
+      content: '';
+      position: absolute;
+      width: 300px; height: 300px;
+      background: radial-gradient(circle, rgba(155,61,255,0.14) 0%, transparent 70%);
+      top: -80px; right: -60px;
+      pointer-events: none;
+    }
+
+    .ws-form-left { flex: 1; max-width: 360px; position: relative; z-index: 1; }
+    .ws-form-left h2 {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+    .ws-form-left p {
+      font-size: 0.875rem;
+      color: var(--c-text-dim);
+      line-height: 1.7;
+      margin-bottom: 22px;
+    }
+    .ws-form-trust {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .ws-form-trust-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.8rem;
+      color: var(--c-text-dim);
+    }
+    .ws-form-trust-item span:first-child { font-size: 1rem; }
+
+    .ws-form-right { flex: 1; position: relative; z-index: 1; }
+
+    /* Formulario */
+    #cubo-request-form {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .ws-field {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .ws-field label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--c-text-dim);
+      letter-spacing: 0.04em;
+    }
+    .ws-field input,
+    .ws-field select {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--c-border);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: var(--c-text);
+      font-size: 0.9rem;
+      font-family: var(--font-sans);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .ws-field input::placeholder { color: rgba(200,185,255,0.3); }
+    .ws-field input:focus,
+    .ws-field select:focus {
+      border-color: rgba(155,61,255,0.6);
+      box-shadow: 0 0 0 3px rgba(155,61,255,0.12);
+    }
+    .ws-field select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238b949e' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+    .ws-field select option { background: #0d0820; }
+
+    /* Fila de dos campos */
+    .ws-field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    @media(max-width:480px){ .ws-field-row{ grid-template-columns:1fr; } }
+
+    /* Botón submit */
+    #cubo-request-form button[type="submit"] {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      padding: 15px 24px;
+      background: linear-gradient(135deg, #9b3dff, #7b00ee);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-size: 0.95rem;
+      font-weight: 700;
+      font-family: var(--font-sans);
+      cursor: pointer;
+      transition: all 0.25s;
+      margin-top: 4px;
+      letter-spacing: 0.01em;
+    }
+    #cubo-request-form button[type="submit"]:hover {
+      background: linear-gradient(135deg, #b050ff, #8b10ff);
+      box-shadow: 0 8px 28px rgba(155,61,255,0.45);
+      transform: translateY(-1px);
+    }
+    #cubo-request-form button[type="submit"]:active { transform: translateY(0); }
+    #cubo-request-form button[type="submit"] .btn-icon { font-size: 1.1rem; }
+
+    /* Estado de éxito */
+    #form-success {
+      display: none;
+      padding: 28px;
+      background: rgba(0,255,170,0.06);
+      border: 1px solid rgba(0,255,170,0.3);
+      border-radius: 10px;
+      text-align: center;
+    }
+    #form-success .success-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+    #form-success h3 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+    #form-success p  { font-size: 0.84rem; color: var(--c-text-dim); line-height: 1.6; }
+
+    /* Estado de error */
+    .ws-form-error {
+      display: none;
+      padding: 10px 14px;
+      background: rgba(255,60,60,0.08);
+      border: 1px solid rgba(255,60,60,0.3);
+      border-radius: 7px;
+      font-size: 0.8rem;
+      color: #ff6b6b;
+    }
+    .ws-form-error.visible { display: block; }
+
+    /* ── Responsive general ── */
+    @media(max-width:640px){
+      #widget-section { padding: 64px 16px 80px; }
+      .ws-title { font-size: 1.9rem; }
+      .ws-subtitle { font-size:0.95rem; margin-bottom:44px; }
+      .ws-card { padding:24px; }
+      .ws-code-block { padding:20px; }
+      .ws-steps { padding:24px; }
+      .ws-integration-header { padding:20px; }
+      .ws-tabs { padding:14px 20px 0; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════
+     SECCIÓN: EL CUBO SENSIBLE WIDGET
+     Copia desde aquí hasta el cierre </section> para
+     pegar en tu landing.
+══════════════════════════════════════════════════════════ -->
+
+<section id="widget-section" aria-label="Cubo Sensible Widget — Integración">
+  <div class="ws-container">
+
+    <!-- ── Encabezado ── -->
+    <div class="ws-eyebrow">
+      <span class="ws-eyebrow-dot"></span>
+      Widget embebible
+    </div>
+
+    <h1 class="ws-title">Añade el Cubo Sensible<br>a tu web.</h1>
+
+    <p class="ws-subtitle">
+      Un <strong>personaje 3D interactivo</strong> que reacciona a tus visitantes, genera engagement y hace que nadie olvide tu web.
+      Se integra en <strong>cualquier HTML con una sola línea de código</strong>, sin frameworks ni configuración compleja.
+    </p>
+
+    <!-- ── Grid de características ── -->
+    <div class="ws-grid">
+      <div class="ws-card">
+        <span class="ws-card-icon">⚡</span>
+        <div class="ws-card-title">Un snippet. Eso es todo.</div>
+        <div class="ws-card-body">
+          Pega una etiqueta <code style="font-family:monospace;font-size:0.8em;background:rgba(155,61,255,0.12);padding:1px 6px;border-radius:3px;color:#00e5ff">&lt;script&gt;</code>
+          antes del cierre de tu <code style="font-family:monospace;font-size:0.8em;background:rgba(155,61,255,0.12);padding:1px 6px;border-radius:3px;color:#00e5ff">&lt;/body&gt;</code>
+          y el Cubo aparece flotando en tu web.
+          <strong>Sin npm, sin bundler, sin dependencias.</strong>
+        </div>
+      </div>
+
+      <div class="ws-card">
+        <span class="ws-card-icon">🎨</span>
+        <div class="ws-card-title">Configurable al instante</div>
+        <div class="ws-card-body">
+          Elige posición, tamaño y tema mediante atributos
+          <code style="font-family:monospace;font-size:0.8em;background:rgba(155,61,255,0.12);padding:1px 6px;border-radius:3px;color:#00e5ff">data-*</code>.
+          Nada de tocar CSS ni JS de terceros.
+          En planes Pro puedes personalizar colores y comportamientos.
+        </div>
+      </div>
+
+      <div class="ws-card">
+        <span class="ws-card-icon">🔒</span>
+        <div class="ws-card-title">Licencia por dominio</div>
+        <div class="ws-card-body">
+          Cada integración lleva un <strong>Site ID único</strong> vinculado a tu dominio.
+          El widget valida la licencia de forma silenciosa al cargar.
+          Sin validación → modo demo con marca de agua.
+        </div>
+      </div>
+
+      <div class="ws-card">
+        <span class="ws-card-icon">📱</span>
+        <div class="ws-card-title">Móvil y rendimiento</div>
+        <div class="ws-card-body">
+          Carga asíncrona para no bloquear el render de tu página.
+          Resolución adaptada al dispositivo. En móviles, toca para interactuar.
+          <strong>El Cubo no ralentiza tu web.</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════════
+         BLOQUE DE INTEGRACIÓN CON PESTAÑAS
+    ══════════════════════════════════════════ -->
+    <div class="ws-integration">
+
+      <div class="ws-integration-header">
+        <div>
+          <h2>Cómo integrarlo en tu web</h2>
+          <p>Copia el snippet, pégalo y listo. Tu ID llegará por email tras solicitar acceso.</p>
+        </div>
+      </div>
+
+      <!-- Pestañas -->
+      <div class="ws-tabs" role="tablist">
+        <button class="ws-tab active" role="tab" aria-selected="true"  data-tab="html">HTML estático</button>
+        <button class="ws-tab"        role="tab" aria-selected="false" data-tab="wp">WordPress</button>
+        <button class="ws-tab"        role="tab" aria-selected="false" data-tab="shopify">Shopify</button>
+      </div>
+
+      <!-- Tab: HTML -->
+      <div class="ws-tab-content active" data-tab-content="html">
+        <div class="ws-code-block">
+          <button class="ws-copy-btn" data-copy="html">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copiar
+          </button>
+          <pre id="snippet-html"><span class="tok-cmt">&lt;!-- Pega esto justo antes de &lt;/body&gt; --&gt;</span>
+<span class="tok-tag">&lt;script</span>
+  <span class="tok-attr">src</span><span class="tok-punct">=</span><span class="tok-val">"https://cdn.cubowidget.com/v1/cubo-widget.min.js"</span>
+  <span class="tok-attr">data-cubo-site-id</span><span class="tok-punct">=</span><span class="tok-val">"<span style="color:#ffe033">TU_SITE_ID_AQUI</span>"</span>
+  <span class="tok-attr">data-position</span><span class="tok-punct">=</span><span class="tok-val">"bottom-right"</span>
+  <span class="tok-attr">data-theme</span><span class="tok-punct">=</span><span class="tok-val">"dark"</span>
+  <span class="tok-attr">async</span>
+<span class="tok-tag">&gt;&lt;/script&gt;</span></pre>
+        </div>
+      </div>
+
+      <!-- Tab: WordPress -->
+      <div class="ws-tab-content" data-tab-content="wp">
+        <div class="ws-code-block">
+          <button class="ws-copy-btn" data-copy="wp">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copiar
+          </button>
+          <pre id="snippet-wp"><span class="tok-cmt">// En functions.php de tu tema activo:</span>
+
+<span class="tok-fn">add_action</span><span class="tok-punct">(</span><span class="tok-str">'wp_footer'</span>, <span class="tok-kw">function</span><span class="tok-punct">() {</span>
+  <span class="tok-kw">echo</span> <span class="tok-str">'&lt;script
+    src="https://cdn.cubowidget.com/v1/cubo-widget.min.js"
+    data-cubo-site-id="<span style="color:#ffe033">TU_SITE_ID_AQUI</span>"
+    data-position="bottom-right"
+    data-theme="dark"
+    async&gt;&lt;/script&gt;'</span><span class="tok-punct">;</span>
+<span class="tok-punct">});</span></pre>
+        </div>
+      </div>
+
+      <!-- Tab: Shopify -->
+      <div class="ws-tab-content" data-tab-content="shopify">
+        <div class="ws-code-block">
+          <button class="ws-copy-btn" data-copy="shopify">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
+            Copiar
+          </button>
+          <pre id="snippet-shopify"><span class="tok-cmt">{%- comment -%}
+  Shopify: Ve a Online Store → Themes → Edit code
+  Abre theme.liquid y pega antes de &lt;/body&gt;
+{%- endcomment -%}</span>
+
+<span class="tok-tag">&lt;script</span>
+  <span class="tok-attr">src</span><span class="tok-punct">=</span><span class="tok-val">"https://cdn.cubowidget.com/v1/cubo-widget.min.js"</span>
+  <span class="tok-attr">data-cubo-site-id</span><span class="tok-punct">=</span><span class="tok-val">"<span style="color:#ffe033">TU_SITE_ID_AQUI</span>"</span>
+  <span class="tok-attr">data-position</span><span class="tok-punct">=</span><span class="tok-val">"bottom-right"</span>
+  <span class="tok-attr">data-theme</span><span class="tok-punct">=</span><span class="tok-val">"dark"</span>
+  <span class="tok-attr">async</span>
+<span class="tok-tag">&gt;&lt;/script&gt;</span></pre>
+        </div>
+      </div>
+
+      <!-- Pasos -->
+      <div class="ws-steps">
+        <h3>Implementación paso a paso</h3>
+        <div class="ws-step-list">
+          <div class="ws-step">
+            <div class="ws-step-num">1</div>
+            <div class="ws-step-text">
+              <strong>Solicita tu código de acceso</strong> usando el formulario de abajo. Recibirás un <code>Site ID</code> único por email en menos de 24&nbsp;horas.
+            </div>
+          </div>
+          <div class="ws-step">
+            <div class="ws-step-num">2</div>
+            <div class="ws-step-text">
+              <strong>Copia el snippet</strong> de arriba y pégalo en el HTML de tu web, justo antes de la etiqueta de cierre <code>&lt;/body&gt;</code>. Solo hay que hacerlo una vez.
+            </div>
+          </div>
+          <div class="ws-step">
+            <div class="ws-step-num">3</div>
+            <div class="ws-step-text">
+              <strong>Sustituye <code>TU_SITE_ID_AQUI</code></strong> por el ID que habrás recibido por email. El Cubo aparecerá automáticamente en la esquina de tu web.
+            </div>
+          </div>
+          <div class="ws-step">
+            <div class="ws-step-num">4</div>
+            <div class="ws-step-text">
+              <strong>(Opcional) Personaliza el comportamiento</strong> cambiando <code>data-position</code> a <code>"bottom-left"</code>, <code>"top-right"</code> o <code>"top-left"</code>, y <code>data-theme</code> a <code>"light"</code> si tu web tiene fondo claro.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div><!-- /.ws-integration -->
+
+    <!-- ══════════════════════════════════════════
+         PLANES DE PRECIO
+    ══════════════════════════════════════════ -->
+    <div class="ws-plans">
+      <h2 class="ws-section-title">Planes sencillos, precio honesto</h2>
+      <p class="ws-section-sub">Sin letra pequeña. Sin renovaciones sorpresa. Paga una vez o por mes, como prefieras.</p>
+
+      <div class="ws-plans-grid">
+
+        <!-- Plan Starter -->
+        <div class="ws-plan">
+          <div>
+            <div class="ws-plan-name">Starter</div>
+            <div class="ws-plan-price">
+              <span class="currency">€</span>
+              <span class="amount">9</span>
+              <span class="period">/mes por dominio</span>
+            </div>
+            <div class="ws-plan-desc">Para webs personales, portfolios y proyectos pequeños.</div>
+          </div>
+          <ul class="ws-plan-features">
+            <li class="active">1 dominio incluido</li>
+            <li class="active">Cubo estándar (tema dark/light)</li>
+            <li class="active">4 posiciones de anclaje</li>
+            <li class="active">Todas las interacciones base</li>
+            <li class="active">Soporte por email</li>
+            <li class="disabled">Personalización de colores</li>
+            <li class="disabled">Panel de métricas</li>
+            <li class="disabled">Varios dominios</li>
+          </ul>
+          <a href="#cubo-request-form" class="ws-plan-cta outline" onclick="selectPlan('starter')">Empezar gratis 7 días</a>
+        </div>
+
+        <!-- Plan Pro (destacado) -->
+        <div class="ws-plan featured">
+          <div class="ws-plan-badge">✦ MÁS POPULAR</div>
+          <div>
+            <div class="ws-plan-name" style="color:#c084fc">Pro</div>
+            <div class="ws-plan-price">
+              <span class="currency">€</span>
+              <span class="amount">19</span>
+              <span class="period">/mes por dominio</span>
+            </div>
+            <div class="ws-plan-desc">Para agencias, tiendas online y webs de empresa que quieren destacar.</div>
+          </div>
+          <ul class="ws-plan-features">
+            <li class="active">1 dominio incluido</li>
+            <li class="active">Cubo con colores personalizados</li>
+            <li class="active">Texto/emoji de bienvenida configurable</li>
+            <li class="active">Todas las interacciones + easter eggs</li>
+            <li class="active">Panel de métricas básicas</li>
+            <li class="active">Clicks, hovers e interacciones por día</li>
+            <li class="active">Soporte prioritario</li>
+            <li class="disabled">Varios dominios</li>
+          </ul>
+          <a href="#cubo-request-form" class="ws-plan-cta solid" onclick="selectPlan('pro')">Quiero el plan Pro</a>
+        </div>
+
+        <!-- Plan Licencia vitalicia -->
+        <div class="ws-plan">
+          <div>
+            <div class="ws-plan-name">Lifetime</div>
+            <div class="ws-plan-price">
+              <span class="currency">€</span>
+              <span class="amount">49</span>
+              <span class="period">pago único</span>
+            </div>
+            <div class="ws-plan-desc">Un pago, para siempre. Ideal si odias las suscripciones tanto como yo.</div>
+          </div>
+          <ul class="ws-plan-features">
+            <li class="active">Hasta 3 dominios</li>
+            <li class="active">Todo lo del plan Pro</li>
+            <li class="active">Actualizaciones de por vida</li>
+            <li class="active">Sin renovaciones ni sorpresas</li>
+            <li class="active">Acceso anticipado a nuevas versiones</li>
+            <li class="active">Panel de métricas avanzado (próximo)</li>
+            <li class="active">Soporte directo por Discord</li>
+            <li class="active">Tu nombre en los créditos del proyecto 👾</li>
+          </ul>
+          <a href="#cubo-request-form" class="ws-plan-cta outline" onclick="selectPlan('lifetime')">Pago único — €49</a>
+        </div>
+
+      </div>
+    </div><!-- /.ws-plans -->
+
+    <!-- ══════════════════════════════════════════
+         FORMULARIO DE SOLICITUD
+    ══════════════════════════════════════════ -->
+    <div class="ws-form-section">
+
+      <div class="ws-form-left">
+        <h2>Solicita tu<br>código de integración</h2>
+        <p>
+          Rellena el formulario con tu email y el dominio donde quieres instalar el Cubo.
+          Te enviaré el <strong>Site ID</strong> y el snippet listo para pegar en menos de 24&nbsp;h.
+        </p>
+        <div class="ws-form-trust">
+          <div class="ws-form-trust-item"><span>🔒</span><span>Sin tarjeta de crédito para la prueba gratuita</span></div>
+          <div class="ws-form-trust-item"><span>⚡</span><span>Activación en menos de 24 horas</span></div>
+          <div class="ws-form-trust-item"><span>📧</span><span>Solo te envío el código. Sin spam.</span></div>
+          <div class="ws-form-trust-item"><span>🔁</span><span>Cancela cuando quieras, sin preguntas</span></div>
+        </div>
+      </div>
+
+      <div class="ws-form-right">
+        <form id="cubo-request-form" novalidate>
+          <div class="ws-field-row">
+            <div class="ws-field">
+              <label for="req-name">Nombre</label>
+              <input type="text" id="req-name" name="name" placeholder="Tu nombre" autocomplete="name" />
+            </div>
+            <div class="ws-field">
+              <label for="req-email">Email <span style="color:#ff3cac">*</span></label>
+              <input type="email" id="req-email" name="email" placeholder="hola@tudominio.com" autocomplete="email" required />
+            </div>
+          </div>
+
+          <div class="ws-field">
+            <label for="req-domain">Dominio donde lo instalarás <span style="color:#ff3cac">*</span></label>
+            <input type="text" id="req-domain" name="domain" placeholder="tudominio.com" required />
+          </div>
+
+          <div class="ws-field">
+            <label for="req-plan">Plan que te interesa</label>
+            <select id="req-plan" name="plan">
+              <option value="starter">Starter — €9/mes (prueba gratis 7 días)</option>
+              <option value="pro">Pro — €19/mes (más popular)</option>
+              <option value="lifetime">Lifetime — €49 pago único</option>
+              <option value="nosure">Aún no lo sé, solo quiero probarlo</option>
+            </select>
+          </div>
+
+          <div class="ws-form-error" id="form-error">Por favor revisa los campos obligatorios.</div>
+
+          <button type="submit">
+            <span class="btn-icon">🟣</span>
+            Quiero el Cubo en mi web
+          </button>
+        </form>
+
+        <!-- Estado de éxito (se muestra tras envío) -->
+        <div id="form-success">
+          <span class="success-icon">✅</span>
+          <h3>¡Solicitud recibida!</h3>
+          <p>
+            Te enviaré tu <strong>Site ID</strong> y el snippet de integración al email que indicaste.
+            Suele tardar menos de 24 horas. Revisa también la carpeta de spam, por si acaso.
+          </p>
+        </div>
+
+      </div>
+    </div><!-- /.ws-form-section -->
+
+  </div><!-- /.ws-container -->
+</section>
+<!-- ══ FIN SECCIÓN WIDGET ══ -->
+
+
+<!-- ══════════════════════════════════════════════════════════
+     JAVASCRIPT DE LA SECCIÓN
+     (Tabs + Copy + Formulario)
+══════════════════════════════════════════════════════════ -->
+<script>
+(function () {
+  'use strict';
+
+  /* ── Tabs ── */
+  const tabBtns     = document.querySelectorAll('.ws-tab');
+  const tabContents = document.querySelectorAll('.ws-tab-content');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.tab;
+
+      tabBtns.forEach(b => { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+      tabContents.forEach(c => c.classList.remove('active'));
+
+      btn.classList.add('active');
+      btn.setAttribute('aria-selected','true');
+      document.querySelector(`[data-tab-content="${target}"]`).classList.add('active');
+    });
+  });
+
+  /* ── Copy to clipboard ── */
+  document.querySelectorAll('.ws-copy-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const tabKey  = btn.dataset.copy;
+      const pre     = document.getElementById('snippet-' + tabKey);
+      const rawText = pre ? pre.textContent : '';
+
+      navigator.clipboard.writeText(rawText.trim()).then(() => {
+        btn.classList.add('copied');
+        btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg> ¡Copiado!`;
+        setTimeout(() => {
+          btn.classList.remove('copied');
+          btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg> Copiar`;
+        }, 2500);
+      }).catch(() => {
+        // Fallback para navegadores sin clipboard API
+        const ta = document.createElement('textarea');
+        ta.value = rawText.trim();
+        ta.style.cssText = 'position:fixed;opacity:0;pointer-events:none';
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        btn.textContent = '✓ Copiado';
+        setTimeout(() => { btn.textContent = 'Copiar'; }, 2500);
+      });
+    });
+  });
+
+  /* ── Selección de plan desde precio ── */
+  window.selectPlan = function(plan) {
+    const sel = document.getElementById('req-plan');
+    if (sel) sel.value = plan;
+  };
+
+  /* ── Formulario de solicitud ── */
+  const form    = document.getElementById('cubo-request-form');
+  const success = document.getElementById('form-success');
+  const errBox  = document.getElementById('form-error');
+
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      errBox.classList.remove('visible');
+
+      const email  = form.email.value.trim();
+      const domain = form.domain.value.trim();
+
+      // Validación mínima del lado cliente
+      if (!email || !email.includes('@') || !domain) {
+        errBox.textContent = 'El email y el dominio son obligatorios.';
+        errBox.classList.add('visible');
+        return;
+      }
+
+      // Normalizar dominio (quitar protocolo si lo pegan)
+      const cleanDomain = domain.replace(/^https?:\/\//i, '').replace(/\/.*$/, '').toLowerCase();
+
+      const payload = {
+        name:   form.name.value.trim(),
+        email,
+        domain: cleanDomain,
+        plan:   form.plan.value,
+      };
+
+      // ── Botón en estado de carga ──
+      const btn = form.querySelector('button[type="submit"]');
+      const originalHTML = btn.innerHTML;
+      btn.disabled   = true;
+      btn.innerHTML  = '<span style="opacity:.6">Enviando…</span>';
+
+      try {
+        /*
+         * ── CONECTAR CON BACKEND REAL ──────────────────────────
+         * Descomenta y ajusta la URL cuando tengas el endpoint:
+         *
+         * const res = await fetch('https://api.tudominio.com/api/request-widget', {
+         *   method:  'POST',
+         *   headers: { 'Content-Type': 'application/json' },
+         *   body:    JSON.stringify(payload),
+         * });
+         * if (!res.ok) throw new Error('Error en el servidor');
+         *
+         * ── SIMULACIÓN (borrar cuando tengas backend) ──────────
+         */
+        await new Promise(r => setTimeout(r, 1200)); // simula latencia
+        console.log('[CuboWidget] Solicitud enviada:', payload);
+
+        // Mostrar éxito
+        form.style.display = 'none';
+        success.style.display = 'block';
+
+      } catch (err) {
+        errBox.textContent = 'Algo salió mal. Por favor inténtalo de nuevo o escríbeme directamente.';
+        errBox.classList.add('visible');
+        btn.disabled  = false;
+        btn.innerHTML = originalHTML;
+      }
+    });
+  }
+
+})();
+</script>
+
+</body>
+</html>
